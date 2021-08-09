@@ -1,4 +1,4 @@
-package com.car.apicar.interfaces
+package com.car.apicar.interfaces.incoming
 
 import com.car.apicar.domain.Driver
 import com.car.apicar.domain.DriverRepository

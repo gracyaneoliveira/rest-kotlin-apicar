@@ -1,10 +1,10 @@
-package com.car.apicar.interfaces.mapping
+package com.car.apicar.interfaces.incoming.mapping
 
 import com.car.apicar.domain.PassengerRepository
 import com.car.apicar.domain.TravelRequest
-import com.car.apicar.interfaces.PassengerAPI
-import com.car.apicar.interfaces.TravelRequestInput
-import com.car.apicar.interfaces.TravelRequestOutput
+import com.car.apicar.interfaces.incoming.PassengerAPI
+import com.car.apicar.interfaces.incoming.TravelRequestInput
+import com.car.apicar.interfaces.incoming.TravelRequestOutput
 import org.springframework.hateoas.EntityModel
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder
 import org.springframework.http.HttpStatus
@@ -46,4 +46,7 @@ class TravelRequestMapper(
                 .withTitle(travelRequest.passenger.name)
         return EntityModel.of(output, passengerLink)
     }
+
+    fun buildOutputModel(requests: List<TravelRequest>) =
+            requests.map { buildOutputModel(it, map(it)) }
 }

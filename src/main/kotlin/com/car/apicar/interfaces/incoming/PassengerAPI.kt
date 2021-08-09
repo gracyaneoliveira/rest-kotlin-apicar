@@ -1,4 +1,4 @@
-package com.car.apicar.interfaces
+package com.car.apicar.interfaces.incoming
 
 import com.car.apicar.domain.Passenger
 import com.car.apicar.domain.PassengerRepository
