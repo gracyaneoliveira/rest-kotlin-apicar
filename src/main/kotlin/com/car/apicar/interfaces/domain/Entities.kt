@@ -1,4 +1,4 @@
-package com.car.apicar.domain
+package com.car.apicar.interfaces.domain
 
 import java.time.LocalDate
 import java.time.LocalDateTime

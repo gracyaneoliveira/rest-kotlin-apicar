@@ -1,6 +1,6 @@
-package com.car.apicar.domain
+package com.car.apicar.interfaces.domain
 
-import com.car.apicar.interfaces.outcoming.GMapsService
+import com.car.apicar.interfaces.interfaces.outcoming.GMapsService
 import org.springframework.stereotype.Component
 
 @Component
@@ -9,8 +9,6 @@ class TravelService (
     val gMapsService: GMapsService
 )
 {
-    val MAX_TRAVEL_TIME: Int = 600
-
     fun saveTravelRequest(travelRequest: TravelRequest) =
             travelRequestRepository.save(travelRequest)
 
@@ -19,5 +17,9 @@ class TravelService (
         return requests.filter { tr ->
             gMapsService.getDistanceBetweenAddress(currentAddress, tr.origin) < MAX_TRAVEL_TIME
         }
+    }
+
+    companion object {
+        const val MAX_TRAVEL_TIME: Int = 600
     }
 }

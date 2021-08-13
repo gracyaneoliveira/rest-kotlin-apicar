@@ -1,4 +1,4 @@
-package com.car.apicar.interfaces.outcoming
+package com.car.apicar.interfaces.interfaces.outcoming
 
 import com.jayway.jsonpath.JsonPath
 import net.minidev.json.JSONArray
@@ -8,11 +8,15 @@ import org.springframework.web.client.RestTemplate
 
 @Service
 class GMapsService(
-        @Value("\${app.car.domain.googlemaps.apikey}")
-        val appKey: String
+    @Value("\${app.car.domain.googlemaps.apikey}")
+    val appKey: String,
+
+    @Value("\${interfaces.outcoming.gmaps.host:https://maps.googleapis.com}")
+    val gMapsHost: String
 ) {
+
     val GMAPS_TEMPLATE: String =
-            "https://maps.googleapis.com/maps/api/directions/json?origin={origin}&destination={destination}&key={key}"
+        "$gMapsHost/maps/api/directions/json?origin={origin}&destination={destination}&key={key}"
 
     fun getDistanceBetweenAddress(addressOne: String, addressTwo: String) : Int {
 

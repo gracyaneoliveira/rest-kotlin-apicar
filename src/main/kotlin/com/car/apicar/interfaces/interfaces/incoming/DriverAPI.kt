@@ -1,8 +1,8 @@
-package com.car.apicar.interfaces.incoming
+package com.car.apicar.interfaces.interfaces.incoming
 
-import com.car.apicar.domain.Driver
-import com.car.apicar.domain.DriverRepository
-import com.car.apicar.domain.PatchDriver
+import com.car.apicar.interfaces.domain.Driver
+import com.car.apicar.interfaces.domain.DriverRepository
+import com.car.apicar.interfaces.domain.PatchDriver
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
@@ -32,7 +32,8 @@ class DriverAPI(
 
     @PutMapping("/drivers/{id}")
     fun fullUpdateDriver(@PathVariable("id") id: Long,
-                         @RequestBody driver: Driver): Driver {
+                         @RequestBody driver: Driver
+    ): Driver {
         val foundDriver = findDriver(id)
         val copyDriver = foundDriver.copy(
                 birthDate = driver.birthDate,
@@ -43,7 +44,8 @@ class DriverAPI(
 
     @PatchMapping("/drivers/{id}")
     fun incrementalUpdateDriver(@PathVariable("id") id: Long,
-                                @RequestBody driver: PatchDriver): Driver {
+                                @RequestBody driver: PatchDriver
+    ): Driver {
         val foundDriver = findDriver(id)
         val copyDriver = foundDriver.copy(
                 birthDate = driver.birthDate ?: foundDriver.birthDate,

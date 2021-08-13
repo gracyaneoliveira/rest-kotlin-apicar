@@ -1,8 +1,8 @@
-package com.car.apicar.interfaces.incoming
+package com.car.apicar.interfaces.interfaces.incoming
 
-import com.car.apicar.domain.Passenger
-import com.car.apicar.domain.PassengerRepository
-import com.car.apicar.domain.PatchPassenger
+import com.car.apicar.interfaces.domain.Passenger
+import com.car.apicar.interfaces.domain.PassengerRepository
+import com.car.apicar.interfaces.domain.PatchPassenger
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
@@ -20,7 +20,7 @@ class PassengerAPI (
     fun listPassengers(): MutableList<Passenger> = passengerRepository.findAll()
 
     @GetMapping("/{id}")
-    fun findPassenger(@PathVariable("id") id: Long) =
+    fun findPassenger(@PathVariable("id") id: Long): Passenger =
             passengerRepository.findById(id)
                     .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
 
@@ -30,7 +30,8 @@ class PassengerAPI (
 
     @PutMapping("/{id}")
     fun fullUpdatePassenger(@PathVariable("id") id: Long,
-                            @RequestBody passenger: Passenger): Passenger {
+                            @RequestBody passenger: Passenger
+    ): Passenger {
         val newPassenger = findPassenger(id).copy(
                 name = passenger.name
         )
@@ -39,7 +40,8 @@ class PassengerAPI (
 
     @PatchMapping("/{id}")
     fun incrementalUpdatePassenger(@PathVariable("id") id: Long,
-                                   @RequestBody passenger: PatchPassenger): Passenger {
+                                   @RequestBody passenger: PatchPassenger
+    ): Passenger {
         val foundPassenger = findPassenger(id)
         val newPassenger = foundPassenger.copy(
                 name = passenger.name ?: foundPassenger.name

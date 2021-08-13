@@ -1,4 +1,4 @@
-package com.car.apicar
+package com.car.apicar.interfaces
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

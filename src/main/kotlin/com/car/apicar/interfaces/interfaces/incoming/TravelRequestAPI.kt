@@ -1,8 +1,8 @@
-package com.car.apicar.interfaces.incoming
+package com.car.apicar.interfaces.interfaces.incoming
 
-import com.car.apicar.domain.TravelRequestStatus
-import com.car.apicar.domain.TravelService
-import com.car.apicar.interfaces.incoming.mapping.TravelRequestMapper
+import com.car.apicar.interfaces.domain.TravelRequestStatus
+import com.car.apicar.interfaces.domain.TravelService
+import com.car.apicar.interfaces.interfaces.incoming.mapping.TravelRequestMapper
 import org.springframework.hateoas.EntityModel
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
@@ -13,8 +13,8 @@ import java.time.LocalDateTime
 @RestController
 @RequestMapping(path = ["/travelRequests"], produces = [MediaType.APPLICATION_JSON_VALUE])
 class TravelRequestAPI(
-        val travelService: TravelService,
-        val mapper: TravelRequestMapper
+    val travelService: TravelService,
+    val mapper: TravelRequestMapper
 ) {
 
     @PostMapping
@@ -40,9 +40,9 @@ data class TravelRequestInput(
 )
 
 data class TravelRequestOutput(
-        val id: Long,
-        val origin: String,
-        val destination: String,
-        val status: TravelRequestStatus,
-        val creationDate: LocalDateTime
+    val id: Long,
+    val origin: String,
+    val destination: String,
+    val status: TravelRequestStatus,
+    val creationDate: LocalDateTime
 )

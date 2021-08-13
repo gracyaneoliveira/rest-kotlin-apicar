@@ -1,10 +1,10 @@
-package com.car.apicar.interfaces.incoming.mapping
+package com.car.apicar.interfaces.interfaces.incoming.mapping
 
-import com.car.apicar.domain.PassengerRepository
-import com.car.apicar.domain.TravelRequest
-import com.car.apicar.interfaces.incoming.PassengerAPI
-import com.car.apicar.interfaces.incoming.TravelRequestInput
-import com.car.apicar.interfaces.incoming.TravelRequestOutput
+import com.car.apicar.interfaces.domain.PassengerRepository
+import com.car.apicar.interfaces.domain.TravelRequest
+import com.car.apicar.interfaces.interfaces.incoming.PassengerAPI
+import com.car.apicar.interfaces.interfaces.incoming.TravelRequestInput
+import com.car.apicar.interfaces.interfaces.incoming.TravelRequestOutput
 import org.springframework.hateoas.EntityModel
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder
 import org.springframework.http.HttpStatus

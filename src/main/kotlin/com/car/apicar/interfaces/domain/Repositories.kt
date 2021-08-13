@@ -1,4 +1,4 @@
-package com.car.apicar.domain
+package com.car.apicar.interfaces.domain
 
 import org.springframework.data.jpa.repository.JpaRepository
 
