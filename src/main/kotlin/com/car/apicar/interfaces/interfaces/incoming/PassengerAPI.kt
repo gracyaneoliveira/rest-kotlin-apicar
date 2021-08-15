@@ -17,7 +17,9 @@ class PassengerAPI (
 ) {
 
     @GetMapping
-    fun listPassengers(): MutableList<Passenger> = passengerRepository.findAll()
+    fun listPassengers(): MutableList<Passenger> {
+        return passengerRepository.findAll()
+    }
 
     @GetMapping("/{id}")
     fun findPassenger(@PathVariable("id") id: Long): Passenger =
@@ -25,8 +27,9 @@ class PassengerAPI (
                     .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
 
     @PostMapping
-    fun createPassenger(@RequestBody passenger: Passenger) =
-            passengerRepository.save(passenger)
+    fun createPassenger(@RequestBody passenger: Passenger): Passenger {
+        return passengerRepository.save(passenger)
+    }
 
     @PutMapping("/{id}")
     fun fullUpdatePassenger(@PathVariable("id") id: Long,
@@ -50,6 +53,8 @@ class PassengerAPI (
     }
 
     @DeleteMapping("/{id}")
-    fun deletePassenger(@PathVariable("id") id: Long) =
-            passengerRepository.delete(findPassenger(id))
+    fun deletePassenger(@PathVariable("id") id: Long) {
+        passengerRepository.delete(findPassenger(id))
+    }
+
 }

@@ -13,48 +13,49 @@ import org.springframework.web.server.ResponseStatusException
 @RestController
 @RequestMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
 class DriverAPI(
-        private val driverRepository: DriverRepository
+    private val driverRepository: DriverRepository
 ) {
 
     @GetMapping("/drivers")
-    fun listDrivers(): MutableList<Driver> =
-            driverRepository.findAll()
+    fun listDrivers(): MutableList<Driver> {
+        return driverRepository.findAll()
+    }
 
     @GetMapping("/drivers/{id}")
-    fun findDriver(@PathVariable("id") id: Long): Driver =
-            driverRepository.findById(id).orElseThrow {
-                ResponseStatusException(HttpStatus.NOT_FOUND)
-            }
+    fun findDriver(@PathVariable("id") id: Long): Driver {
+        return driverRepository.findById(id)
+            .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND) }
+    }
 
     @PostMapping("/drivers")
-    fun createDriver(@RequestBody driver: Driver): Driver =
-            driverRepository.save(driver)
+    fun createDriver(@RequestBody driver: Driver): Driver {
+        return driverRepository.save(driver)
+    }
 
     @PutMapping("/drivers/{id}")
     fun fullUpdateDriver(@PathVariable("id") id: Long,
-                         @RequestBody driver: Driver
-    ): Driver {
+                         @RequestBody driver: Driver): Driver {
         val foundDriver = findDriver(id)
         val copyDriver = foundDriver.copy(
-                birthDate = driver.birthDate,
-                name = driver.name
+            birthDate = driver.birthDate,
+            name = driver.name
         )
         return driverRepository.save(copyDriver)
     }
 
     @PatchMapping("/drivers/{id}")
     fun incrementalUpdateDriver(@PathVariable("id") id: Long,
-                                @RequestBody driver: PatchDriver
-    ): Driver {
+                                @RequestBody driver: PatchDriver): Driver {
         val foundDriver = findDriver(id)
         val copyDriver = foundDriver.copy(
-                birthDate = driver.birthDate ?: foundDriver.birthDate,
-                name = driver.name ?: foundDriver.name
+            birthDate = driver.birthDate ?: foundDriver.birthDate,
+            name = driver.name ?: foundDriver.name
         )
         return driverRepository.save(copyDriver)
     }
 
     @DeleteMapping("/drivers/{id}")
-    fun deleteDriver(@PathVariable("id") id:Long) =
-            driverRepository.delete(findDriver(id))
+    fun deleteDriver(@PathVariable("id") id: Long) {
+        return  driverRepository.delete(findDriver(id))
+    }
 }

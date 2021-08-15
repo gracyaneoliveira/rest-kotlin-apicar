@@ -15,13 +15,12 @@ class GMapsService(
     val gMapsHost: String
 ) {
 
-    val GMAPS_TEMPLATE: String =
+    private val gMapsTamplete =
         "$gMapsHost/maps/api/directions/json?origin={origin}&destination={destination}&key={key}"
 
-    fun getDistanceBetweenAddress(addressOne: String, addressTwo: String) : Int {
-
+    fun getDistanceBetweenAddress(addressOne: String, addressTwo: String): Int {
         val template = RestTemplate()
-        val jsonResult = template.getForObject(GMAPS_TEMPLATE, String::class.java, addressOne, addressTwo, appKey)
+        val jsonResult = template.getForObject(gMapsTamplete, String::class.java, addressOne, addressTwo, appKey)
         val rawResults: JSONArray = JsonPath.parse(jsonResult).read("\$..legs[*].duration.value")
 
         return rawResults.map { it as Int }.minOrNull() ?: Int.MAX_VALUE

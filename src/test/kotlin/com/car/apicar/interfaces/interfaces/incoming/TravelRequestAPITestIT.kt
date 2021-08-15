@@ -1,21 +1,21 @@
 package com.car.apicar.interfaces.interfaces.incoming
 
 import com.car.apicar.infrastructure.loadFileContents
-import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import com.github.tomakehurst.wiremock.WireMockServer
+import com.github.tomakehurst.wiremock.client.WireMock.*
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import io.restassured.RestAssured
+import io.restassured.RestAssured.given
+import io.restassured.http.ContentType
+import org.hamcrest.Matchers.notNullValue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock
 import org.springframework.test.context.ActiveProfiles
-import com.github.tomakehurst.wiremock.client.WireMock.*
-import io.restassured.RestAssured.given
-import io.restassured.http.ContentType
-import org.junit.jupiter.api.Test
 import org.hamcrest.Matchers.equalTo as equalToHamcrest
-import org.hamcrest.Matchers.notNullValue
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWireMock (port = WireMockConfiguration.DYNAMIC_PORT)
@@ -45,7 +45,8 @@ class TravelRequestAPITestIT {
     @Test
     fun testFindNearbyTravelRequests() {
         setupServer()
-        given()
+
+        val passengerId = given()
             .contentType(ContentType.JSON)
             .body(loadFileContents("/requests/passengers_api/create_new_passenger.json"))
             .post("/passengers")
@@ -53,10 +54,17 @@ class TravelRequestAPITestIT {
             .statusCode(200)
             .body("id", notNullValue())
             .body("name", equalToHamcrest("Alexandre Saudate"))
+            .extract()
+            .body()
+            .jsonPath().getString("id")
 
-        given()
+        val data = mapOf<String, String>(
+            "passengerId" to passengerId
+        )
+
+        val travelRequestId = given()
             .contentType(ContentType.JSON)
-            .body(loadFileContents("/requests/travel_requests_api/create_new_request.json"))
+            .body(loadFileContents("/requests/travel_requests_api/create_new_request.json", data))
             .post("/travelRequests")
             .then()
             .statusCode(200)
@@ -65,12 +73,14 @@ class TravelRequestAPITestIT {
             .body("destination", equalToHamcrest("Avenida Ipiranga, 100"))
             .body("status", equalToHamcrest("CREATED"))
             .body("_links.passenger.title", equalToHamcrest("Alexandre Saudate"))
+            .extract()
+            .jsonPath().getInt("id")
 
         given()
             .get("/travelRequests/nearby?currentAddress=Avenida Paulista, 1000")
             .then()
             .statusCode(200)
-            .body("[0].id", notNullValue())
+            .body("[0].id", equalToHamcrest(travelRequestId))
             .body("[0].origin", equalToHamcrest("Avenida Paulista, 1000"))
             .body("[0].destination", equalToHamcrest("Avenida Ipiranga, 100"))
             .body("[0].status", equalToHamcrest("CREATED"))
